@@ -259,12 +259,3 @@ opencv-python-headless
 * Improve low-light performance
 
 ---
-
-If you want, I can also:
-
-* ✅ Convert this into **PDF**
-* ✅ Add **diagrams / flowcharts**
-* ✅ Optimize code for **production**
-* ✅ Help you write **project report / viva answers**
-
-Just tell me 👍
