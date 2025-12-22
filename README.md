@@ -56,7 +56,7 @@ Face-Recognition-OpenCV/
 
 ```
 dataset/
- └── Elon/
+ └── Modi/
      ├── 1.jpg
      ├── 2.jpg
 ```
@@ -163,55 +163,102 @@ pip install -r requirements.txt
 
 ---
 
-### Step 3️⃣ Extract Face Embeddings
 
-```bash
-python extract_embeddings.py \
---dataset dataset \
---embeddings output/embeddings.pickle \
---detector face_detection_model \
---embedding-model openface_nn4.small2.v1.t7
-```
+## ▶️ How to Run the Face Recognition Program (Camera-Based)
 
----
+This project runs in **three main stages**:
 
-### Step 4️⃣ Train the Recognition Model
+1. **Extract face embeddings**
+2. **Train the face recognition model**
+3. **Run real-time face recognition using camera**
 
-```bash
-python train_model.py \
---embeddings output/embeddings.pickle \
---recognizer output/recognizer.pickle \
---le output/le.pickle
-```
+Each command must be executed **in the same order**.
 
 ---
 
-### Step 5️⃣ Recognize Face from Image
+## 🔹 Step 0: Navigate to Project Directory
+
+Before running any command, open **Command Prompt / Terminal** and move into your project folder:
 
 ```bash
-python recognize.py \
---image images/test.jpg \
---detector face_detection_model \
---embedding-model openface_nn4.small2.v1.t7 \
---recognizer output/recognizer.pickle \
---le output/le.pickle
+cd C:\Users\PyPower_face-recognition-20241022T190640Z-001\PyPower_face-recognition
 ```
+
+👉 This ensures Python can find all project files correctly.
 
 ---
 
-### Step 6️⃣ Real-Time Face Recognition (Webcam)
+## 🔹 Step 1: Extract Face Embeddings
 
 ```bash
-python recognize_video.py \
---detector face_detection_model \
---embedding-model openface_nn4.small2.v1.t7 \
---recognizer output/recognizer.pickle \
---le output/le.pickle
+python extract_embeddings.py --dataset dataset --embeddings output/PyPower_embed.pickle --detector face_detection_model --embedding-model openface_nn4.small2.v1.t7
 ```
 
-Press **`q`** to quit webcam.
+### 📌 What this command does
+
+* Scans all images inside the `dataset/` folder
+* Detects faces using OpenCV’s deep learning face detector
+* Converts each face into a **128-dimensional numerical vector (embedding)**
+* Saves all embeddings into a file
+
+### 📁 Output Generated
+
+```
+output/PyPower_embed.pickle
+```
+
+This file contains:
+
+* Face features
+* Corresponding person names
 
 ---
+
+## 🔹 Step 2: Train the Face Recognition Model
+
+```bash
+python train_model.py --embeddings output/PyPower_embed.pickle --recognizer output/PyPower_recognizer.pickle --le output/PyPower_label.pickle
+```
+
+### 📌 What this command does
+
+* Loads the extracted face embeddings
+* Encodes person names into numerical labels
+* Trains an **SVM (Support Vector Machine)** classifier
+* Saves the trained model and label encoder
+
+### 📁 Output Generated
+
+```
+output/PyPower_recognizer.pickle
+output/PyPower_label.pickle
+```
+
+✔ These files are **required for recognition**
+
+---
+
+## 🔹 Step 3: Run Real-Time Face Recognition Using Camera 🎥
+
+```bash
+python recognize_video.py --detector face_detection_model --embedding-model openface_nn4.small2.v1.t7 --recognizer output/PyPower_recognizer.pickle --le output/PyPower_label.pickle
+
+```
+
+### 📌 What this command does
+
+* Turns on your **webcam**
+* Detects faces in real-time
+* Extracts face embeddings from live video
+* Matches faces against the trained model
+* Displays:
+
+  * Person name
+  * Recognition confidence (%)
+
+### 🛑 Exit Camera
+
+Press **`Q`** on the keyboard to stop the camera.
 
 ## 📦 requirements.txt
 
