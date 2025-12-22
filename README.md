@@ -149,7 +149,7 @@ Two modes supported:
 ### Step 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/your-username/Face-Recognition-OpenCV.git
+git clone https://github.com/bsb1910/face_recognition_project
 cd Face-Recognition-OpenCV
 ```
 
